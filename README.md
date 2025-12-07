@@ -33,6 +33,34 @@ This system aims to make communication more accessible, inclusive, and instant f
 
 <img src="results/welcom_page.PNG" alt="App Screenshot" width="200"/>
 
+### 2. About us Screen:
+- Team members and project purpose.
 
-    
+<br>
+
+<img src="results/about_us.PNG" alt="App Screenshot" width="200"/>
+
+
+### 3. Home Screen:
+- main page where you can navigate to dictionary and camera.
+
+<br>
+
+<img src="results/home.PNG" alt="App Screenshot" width="200"/>
+
+### 4. dictionary Screen:
+- Displays all supported signs with search tap.
+
+<br>
+
+<img src="results/dictionary.PNG" alt="App Screenshot" width="200"/>
+
+
+### 5. Camera Screen:
+- Live camera feed and Real-time ArSL prediction with info icon.
+
+<br>
+
+<img src="results/camera_info.PNG" alt="App Screenshot" width="200"/>
+<img src="results/camera.PNG" alt="App Screenshot" width="200"/>
 
