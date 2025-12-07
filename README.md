@@ -9,20 +9,20 @@ This system aims to make communication more accessible, inclusive, and instant f
 - **Cross-Platform Mobile App:** Built using Flutter for Android and iOS.
 
 ## Technologies Used
--**Flutter:** Mobile app development
--**FastAPI:** Backend server for recognition & TTS
--**EfficientNetB0:** Deep learning model for classification
--**MediaPipe:** hand tracking
--**OpenCV:** Image preprocessing
--**Microsoft Edge TTS:** Arabic text-to-speech
--**PyTorch / TorchVision:** Training and modeling
+- **Flutter:** Mobile app development
+- **FastAPI:** Backend server for recognition & TTS
+- **EfficientNetB0:** Deep learning model for classification
+- **MediaPipe:** hand tracking
+- **OpenCV:** Image preprocessing
+- **Microsoft Edge TTS:** Arabic text-to-speech
+- **PyTorch / TorchVision:** Training and modeling
 
 ## System Workflow
--**Hand Detection:** MediaPipe detects the hand and extracts 21 landmarks.
--**Preprocessing:** Frames are resized, normalized, and cropped.
--**Gesture Classification:** EfficientNetB0 predicts the Arabic letter.
--**Sentence Building:** Users can add, delete, or clear letters to form sentences.
--**Speech Generation:** The final text is converted to Arabic audio using Edge-TTS.
+- **Hand Detection:** MediaPipe detects the hand and extracts 21 landmarks.
+- **Preprocessing:** Frames are resized, normalized, and cropped.
+- **Gesture Classification:** EfficientNetB0 predicts the Arabic letter.
+- **Sentence Building:** Users can add, delete, or clear letters to form sentences.
+- **Speech Generation:** The final text is converted to Arabic audio using Edge-TTS.
 
 ## Screen Structure:
 ### 1. Welcom Screen:
