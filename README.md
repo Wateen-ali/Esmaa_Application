@@ -2,7 +2,7 @@
 Esma’a is a mobile application designed to bridge the communication gap between Deaf/Hard-of-Hearing individuals and hearing people. The app recognizes Arabic Sign Language (ArSL) hand gestures using advanced Computer Vision and Deep Learning, then converts them into clear Arabic text and spoken speech.
 This system aims to make communication more accessible, inclusive, and instant for users.
 
-**Features**
+## Features
 - **Real-Time Sign Recognition:** Detects Arabic Sign Language gestures live using MediaPipe and a fine-tuned CNN model (EfficientNetB0).
 - **Sign-to-Text Conversion:** Translates recognized gestures into Arabic characters and full sentences.
 - **Text-to-Speech Output:** Uses Microsoft Edge-TTS to convert translated text into clear Arabic audio.
@@ -24,7 +24,7 @@ This system aims to make communication more accessible, inclusive, and instant f
 - **Sentence Building:** Users can add, delete, or clear letters to form sentences.
 - **Speech Generation:** The final text is converted to Arabic audio using Edge-TTS.
 
-## Screen Structure:
+## Screen Structure
 
 ### 1. Welcome Screen:
 - Entry/intro and navigation to about us (من نحن) or try it now (!جرب الآن).
@@ -66,4 +66,17 @@ This system aims to make communication more accessible, inclusive, and instant f
   <img src="results/camera.PNG" alt="App Screenshot" width="200"/>
 </p>
 
+## Demo:
+
+## Future Plan:
+- Support for full words & sentences
+- Integration of facial expression recognition
+- Offline speech synthesis
+- Multi-language support
+
+## Team member:
+- wateen Ali Alrumayh
+- Renad Majed Alrubaish
+- Rahaf Raied Megdad
+- Dina Hameed Alotaibi
 
