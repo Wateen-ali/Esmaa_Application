@@ -61,6 +61,9 @@ This system aims to make communication more accessible, inclusive, and instant f
 
 <br>
 
-<img src="results/camera_info.PNG" alt="App Screenshot" width="200"/>
-<img src="results/camera.PNG" alt="App Screenshot" width="200"/>
+<p>
+  <img src="results/camera_info.PNG" alt="App Screenshot" width="200"/>
+  <img src="results/camera.PNG" alt="App Screenshot" width="200"/>
+</p>
+
 
