@@ -27,6 +27,8 @@ This system aims to make communication more accessible, inclusive, and instant f
 ## Screen Structure:
 
 ### 1. Welcom Screen:
-   - Entry/intro and navigation to about us(من نحن) or try it now(!جرب الان). 
-     ![App Screenshot](results/welcom_page.PNG)
+   - Entry/intro and navigation to about us(من نحن) or try it now(!جرب الان).
+     <img src="results/welcom_page.PNG" alt="App Screenshot" width="300"/>
+
+    
 
