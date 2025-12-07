@@ -66,7 +66,9 @@ This system aims to make communication more accessible, inclusive, and instant f
   <img src="results/camera.PNG" alt="App Screenshot" width="200"/>
 </p>
 
-## Demo:
+## Demo Video
+[Watch the Demo Video](https://drive.google.com/file/d/10Ya4PQ8kg312SVhIkqgdBpU0FUgdg09P/view?usp=sharing)
+
 
 ## Future Plan:
 - Support for full words & sentences
