@@ -94,15 +94,15 @@ class _CameraPageState extends State<CameraPage> {
       }, onDone: () { //if server closed
 
         debugPrint("Server closed connection");
-        channel = null;                   // مهم جداً
-        stopPeriodicCapture();            // يوقف البث
+        channel = null;                   
+        stopPeriodicCapture();            
         setState(() {
           streaming = false;
           status = "غير متصل";
         });
       },onError: (err) {
         debugPrint("WebSocket error: $err");
-        channel = null;                   // مهم جداً
+        channel = null;                   
         stopPeriodicCapture();
         setState(() {
           streaming = false;
@@ -154,7 +154,7 @@ class _CameraPageState extends State<CameraPage> {
     captureTimer?.cancel();
   }
 
-  void onAdd() {
+  void onAdd() { //to add letter
     if (currentChar.isNotEmpty) {
       setState(() {
         sentence += currentChar;
@@ -162,7 +162,7 @@ class _CameraPageState extends State<CameraPage> {
     }
   }
 
-  void onRemove() {
+  void onRemove() { //to remove letter
     if (sentence.isNotEmpty) {
       setState(() {
         sentence = sentence.substring(0, sentence.length - 1);
@@ -170,7 +170,7 @@ class _CameraPageState extends State<CameraPage> {
     }
   }
 
-  void onClear() {
+  void onClear() { //remove whole sentence 
     setState(() => sentence = "");
   }
 
@@ -199,8 +199,7 @@ class _CameraPageState extends State<CameraPage> {
   bool get isConnected => channel != null;
 
   void onStop() async {
-    // لو ما فيه اتصال لا تبدأ بث
-    if (!isConnected) {
+    if (!isConnected) {//if no connection 
       setState(() {
         streaming = false;
         status = "غير متصل بالسيرفر";
@@ -216,7 +215,7 @@ class _CameraPageState extends State<CameraPage> {
         status = "جاري الإرسال";
       });
     } else {
-      stopPeriodicCapture();
+      stopPeriodicCapture();//stop the streaming
       setState(() {
         streaming = false;
         status = "متوقف مؤقتا";
@@ -225,14 +224,13 @@ class _CameraPageState extends State<CameraPage> {
   }
 
 
-  Future<void> switchCamera() async {
+  Future<void> switchCamera() async {//to switch the current camera
     if (cameras.isEmpty) return;
 
-    // اختيار الكاميرا التالية
-    currentCameraIndex = (currentCameraIndex + 1) % cameras.length;
+    currentCameraIndex = (currentCameraIndex + 1) % cameras.length;//next camera
     final newCamera = cameras[currentCameraIndex];
 
-    // تبديل الكاميرا بدون إيقاف البث
+    //switch camera without stop streaming
     final wasStreaming = streaming;
     streaming = false; // مؤقتًا لإيقاف الإرسال أثناء التبديل
     await controller?.dispose();
@@ -244,23 +242,23 @@ class _CameraPageState extends State<CameraPage> {
   }
 
   void _showInfoDialog(BuildContext context) {
-    showDialog(
+    showDialog( //popup dialog
       context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
+      builder: (BuildContext context) { 
+        return AlertDialog( //dialog with rounded corners
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           title: const Text("معلومات الأزرار", textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold,
             fontFamily: "El_Messiri",)
           ),
 
           content: const Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,//to make the dialog size match the content
+            crossAxisAlignment: CrossAxisAlignment.start,//content start from the start (Right in RTL layout)
             children: [
               Directionality(
-                textDirection: TextDirection.rtl, // يجعل كل النصوص من اليمين لليسار
+                textDirection: TextDirection.rtl, // align all content from left to right
                 child: Column(
-                  mainAxisSize: MainAxisSize.min,
+                  mainAxisSize: MainAxisSize.min, //column height suits the content
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 8),
@@ -327,7 +325,7 @@ class _CameraPageState extends State<CameraPage> {
             ],
           ),
           actionsAlignment: MainAxisAlignment.center,
-          actions: [
+          actions: [ //close button 
             TextButton(onPressed: () => Navigator.pop(context), child: const Text("إغلاق",style: TextStyle(
               fontFamily: 'El_Messiri',
               fontSize: 18,
@@ -340,20 +338,20 @@ class _CameraPageState extends State<CameraPage> {
   }
 
   @override
-  void dispose() {
+  void dispose() { //closes all active resources when leaving the page
     captureTimer?.cancel();
     controller?.dispose();
     channel?.sink.close();
     super.dispose();
   }
 
-  Widget cameraButton(IconData icon, VoidCallback onTap, Color iconColor) {
-    return GestureDetector(
+  Widget cameraButton(IconData icon, VoidCallback onTap, Color iconColor) {//reusable styling camera button
+    return GestureDetector( //clickable button 
       onTap: onTap,
       child: Container( height: 50, width: 49,
         decoration: BoxDecoration(
-          color: Colors.black45,            // خلفية نصف شفافة
-          borderRadius: BorderRadius.circular(14), // مربعات ناعمة
+          color: Colors.black45,           
+          borderRadius: BorderRadius.circular(14), 
         ),
         child: Icon( icon,
           color: iconColor,
@@ -363,31 +361,31 @@ class _CameraPageState extends State<CameraPage> {
     );
   }
 
-  Color getStatusColor() {
+  Color getStatusColor() {//return state indicator color
     if (status == "متصل" && !streaming) {
-      return Colors.green; // متصل بدون بث
+      return Colors.green; // connected without streaming
     }
     if (streaming) {
-      return Colors.green; // بث شغال
+      return Colors.green; //streaming
     }
     if (status == "متوقف مؤقتا") {
-      return Colors.amberAccent; // توقف مؤقت
+      return Colors.amberAccent; // paused
     }
     if (status == "غير متصل" || status == "فشل الإتصال" || status == "Connection error") {
-      return Colors.redAccent; // غير متصل
+      return Colors.redAccent; // not connected
     }
-    return Colors.grey; // أي حالة ثانية
+    return Colors.grey; // any other state
   }
 
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {//build main UI of camera screen
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Stack(
           children: [
-            // الكاميرا فل شاشة
+            //full screen camera preview with aspect ratio preserved
             Positioned.fill(
               child: controller == null || !controller!.value.isInitialized
                   ? const Center(
@@ -403,7 +401,7 @@ class _CameraPageState extends State<CameraPage> {
               ),
             ),
 
-            Positioned(
+            Positioned(//at the top of the screen
               top: 20,
               left: 12,
               right: 12,
@@ -411,7 +409,7 @@ class _CameraPageState extends State<CameraPage> {
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.circle, size: 15, color: getStatusColor()),
+                      Icon(Icons.circle, size: 15, color: getStatusColor()),//connection status
                       SizedBox(width: 5),
                       Expanded(child: Text(" $status", style: TextStyle(color: Colors.white))),
                     ],
@@ -445,7 +443,7 @@ class _CameraPageState extends State<CameraPage> {
             ),
 
 
-            Positioned( // Start & Stop button
+            Positioned( // Start & Stop button with dynamic color based on streaming status
               bottom: 130,
               left: 0,
               right: 0,
@@ -462,7 +460,7 @@ class _CameraPageState extends State<CameraPage> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      padding: EdgeInsets.zero, // مهم حتى ما يكبر الزر زيادة
+                      padding: EdgeInsets.zero, 
                     ),
                     child: Icon(
                       streaming ? Icons.pause : Icons.play_arrow,
@@ -481,17 +479,17 @@ class _CameraPageState extends State<CameraPage> {
               left: 2,
               right: 2,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,// evenly spaces the buttons across the row
                 children: [
-                  cameraButton(Icons.delete_outline, onClear, Colors.redAccent),
+                  cameraButton(Icons.delete_outline, onClear, Colors.redAccent),//clear
                   const SizedBox(width: 35),
-                  cameraButton(Icons.remove, onRemove, Colors.orange),
+                  cameraButton(Icons.remove, onRemove, Colors.orange),//remove
                   const SizedBox(width: 35),
-                  cameraButton(Icons.add, onAdd, Colors.green),
+                  cameraButton(Icons.add, onAdd, Colors.green),//add
                   const SizedBox(width: 35),
-                  cameraButton(Icons.volume_up, onSpeak, Colors.blueAccent),
+                  cameraButton(Icons.volume_up, onSpeak, Colors.blueAccent),//speak
                   const SizedBox(width: 35),
-                  cameraButton(Icons.cameraswitch, switchCamera, Colors.white70),
+                  cameraButton(Icons.cameraswitch, switchCamera, Colors.white70),//switch camera
                 ],
               ),
             ),
@@ -499,7 +497,7 @@ class _CameraPageState extends State<CameraPage> {
               top: 10,
               right: 10,
               child: IconButton(
-                icon: const Icon(Icons.info_outline, color: Colors.white70, size: 30),
+                icon: const Icon(Icons.info_outline, color: Colors.white70, size: 30),//dialog button
                 onPressed: () => _showInfoDialog(context),
               ),
             ),
