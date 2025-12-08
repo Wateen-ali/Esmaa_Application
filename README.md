@@ -76,6 +76,11 @@ This system aims to make communication more accessible, inclusive, and instant f
 - Offline speech synthesis
 - Multi-language support
 
+## References:
+- [ ASLAD190K dataset](https://www.kaggle.com/datasets/salmaselmoghazy/aslad-190k-arabic-sign-language-alphabet-dataset)
+- [ ASL Alphabet datase](https://www.kaggle.com/datasets/debashishsau/aslamerican-sign-language-aplhabet-dataset) 
+  
+
 ## Team member:
 - wateen Ali Alrumayh
 - Renad Majed Alrubaish
