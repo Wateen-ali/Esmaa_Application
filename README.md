@@ -82,7 +82,7 @@ This system aims to make communication more accessible, inclusive, and instant f
   
 
 ## Team member:
-- wateen Ali Alrumayh
+- Wateen Ali Alrumayh
 - Renad Majed Alrubaish
 - Rahaf Raied Megdad
 - Dina Hameed Alotaibi
