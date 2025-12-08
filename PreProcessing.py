@@ -166,9 +166,10 @@ def main():
         with open(FAIL_LOG_PATH, "w", encoding="utf-8") as f:
             json.dump(fail_log, f, ensure_ascii=False, indent=2)
 
-        print("✅ Done.")
+        print("Done")
         print("Output:", DST_ROOT)
         print("Failed:", len(fail_log), "→", FAIL_LOG_PATH)
 
 if __name__ == "__main__": #start main 
     main()
+
