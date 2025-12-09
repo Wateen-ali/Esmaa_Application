@@ -7,7 +7,7 @@ void main() {
     // general style setting
     MaterialApp(
       debugShowCheckedModeBanner: false, // to hide the debug mark
-      themeMode: ThemeMode.light,/////////////////////
+      themeMode: ThemeMode.light,
       theme: ThemeData(
         useMaterial3: true,
         scaffoldBackgroundColor: Colors.white,        // background color of the pages
