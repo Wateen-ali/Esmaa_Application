@@ -73,7 +73,7 @@ This system aims to make communication more accessible, inclusive, and instant f
 
 ### 1. Preprocessing Script (Dataset Preparation)
 
-A Python script (e.g., `preprocess_dataset.py`) that:
+A Python script (`PreProcessing.py`) that:
 
 - Reads raw dataset images (e.g., ASLAD-190K) from `SRC_ROOT`.
 - Uses **MediaPipe Hands** to:
@@ -84,7 +84,7 @@ A Python script (e.g., `preprocess_dataset.py`) that:
 
 ### 2. Training Script (Model Training)
 
-A Python script (e.g., `train_efficientnet.py`) that:
+A Python script (`train.py`) that:
 
 - Loads processed train/val/test splits via `torchvision.datasets.ImageFolder`.
 - Applies:
