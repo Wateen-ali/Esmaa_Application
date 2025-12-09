@@ -125,7 +125,9 @@ Before running this project, make sure you have the following installed on your 
 - OpenCV  
 - MediaPipe  
 - PyTorch  
-- NumPy  
+- NumPy
+
+
 
 ---
 
@@ -137,15 +139,32 @@ Before running this project, make sure you have the following installed on your 
 
 ---
 
-### 🗂 General Tools
-- Git  
-- Stable internet connection for package installation
 
----
+## Setup Instructions
+### Installing Backend Dependencies
 
-### 🗂 General Tools
-- :contentReference[oaicite:12]{index=12}  
-- A stable internet connection (for package installation)
+To run the backend server, you must install all required Python packages.  
+The following command installs FastAPI, the model dependencies, MediaPipe for hand detection, OpenCV for image processing, and additional utilities used in the project:
+
+```bash
+pip install fastapi uvicorn torch torchvision opencv-python mediapipe edge-tts numpy tqdm matplotlib seaborn scikit-learn
+
+
+### Configuring the Server IP in Flutter
+
+The Flutter application must connect to the backend server (FastAPI) over the local network.  
+To enable this connection, update the following lines in **CameraPage.dart**:
+
+```dart
+String serverIp = "192.168.xxx.xxx"; // backend machine IP (your laptop/PC)
+int serverPort = 8000;               // backend server port
+
+### Running the Backend Server
+
+To start the FastAPI backend and allow the Flutter application to connect, run the following command in the backend folder:
+
+```bash
+uvicorn server:app --host 0.0.0.0 --port 8000
 
 
 ## Demo Video
