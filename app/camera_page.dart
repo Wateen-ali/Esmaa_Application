@@ -255,7 +255,7 @@ class _CameraPageState extends State<CameraPage> {
             crossAxisAlignment: CrossAxisAlignment.start, //content start from the start (Right in RTL layout)
             children: [
               Directionality(
-                textDirection: TextDirection.rtl, // align all content from left to right
+                textDirection: TextDirection.rtl, // align all content from right to left
                 child: Column(
                   mainAxisSize: MainAxisSize.min,//column height suits the content
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -459,7 +459,7 @@ class _CameraPageState extends State<CameraPage> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      padding: EdgeInsets.zero, // مهم حتى ما يكبر الزر زيادة
+                      padding: EdgeInsets.zero, 
                     ),
                     child: Icon(
                       streaming ? Icons.pause : Icons.play_arrow,
