@@ -3,7 +3,6 @@ import 'dart:async';
 import 'dart:convert'; //to convert base64 -- json
 import 'dart:io'; //to process files and websocket of dart
 import 'dart:typed_data';//to process bytes  (voice)
-
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:web_socket_channel/io.dart'; //webSocket channel
@@ -12,16 +11,6 @@ import 'package:audioplayers/audioplayers.dart'; //to play sound
 import 'package:path_provider/path_provider.dart';//temporary folder for voice files
 
 List<CameraDescription> cameras = [];//list for available cameras
-
-// دالة لتشغيل الصوت من بايتات
-Future<void> playAudioFromBytes(Uint8List bytes) async {
-  final dir = await getTemporaryDirectory(); //مجلد مؤقت في الجوال
-  final file = File('${dir.path}/tts_audio.mp3');//ينشئ ملف MP3
-  await file.writeAsBytes(bytes, flush: true);//writes bytes to file
-
-  final player = AudioPlayer();
-  await player.play(DeviceFileSource(file.path));//play voice file
-}
 
 class CameraPage extends StatefulWidget {
   const CameraPage({super.key});
@@ -37,7 +26,7 @@ class _CameraPageState extends State<CameraPage> {
   bool isSending = false;
   bool streaming = false;
 
-  String serverIp = "192.168.68.58";
+  String serverIp = "192.168.100.18";
   int serverPort = 8000;
 
   String currentChar = "";
@@ -47,12 +36,12 @@ class _CameraPageState extends State<CameraPage> {
   int currentCameraIndex = 0;
 
   @override
-  void initState() { //when camera opens its inialize camera and connection
+  void initState() { //initialize camera and connection when the screen opens
     super.initState();
     _initAll();
   }
 
-  Future<void> _initAll() async { //async function to open camera
+  Future<void> _initAll() async { //async function to initialize camera
     try {
       cameras = await availableCameras();
       if (cameras.isNotEmpty) {
@@ -94,15 +83,15 @@ class _CameraPageState extends State<CameraPage> {
       }, onDone: () { //if server closed
 
         debugPrint("Server closed connection");
-        channel = null;                   
-        stopPeriodicCapture();            
+        channel = null;                   // مهم جداً
+        stopPeriodicCapture();            // يوقف البث
         setState(() {
           streaming = false;
           status = "غير متصل";
         });
       },onError: (err) {
         debugPrint("WebSocket error: $err");
-        channel = null;                   
+        channel = null;                   // مهم جداً
         stopPeriodicCapture();
         setState(() {
           streaming = false;
@@ -123,7 +112,7 @@ class _CameraPageState extends State<CameraPage> {
 
   void startPeriodicCapture() {
     captureTimer?.cancel();
-    captureTimer = Timer.periodic(const Duration(milliseconds: 300), (_) async {
+    captureTimer = Timer.periodic(const Duration(milliseconds: 200), (_) async {
       if (!streaming || // streaming stoped
           isSending || //another frame is sending
           controller == null || //camera not initialized
@@ -133,7 +122,6 @@ class _CameraPageState extends State<CameraPage> {
 
       isSending = true;
       try {
-        //await controller!.setFlashMode(FlashMode.off);
         final XFile file = await controller!.takePicture(); //take picture
         final bytes = await file.readAsBytes(); //convert image to bytes
         final base64Str = base64Encode(bytes);//convert it to base64
@@ -154,7 +142,7 @@ class _CameraPageState extends State<CameraPage> {
     captureTimer?.cancel();
   }
 
-  void onAdd() { //to add letter
+  void onAdd() { //to add the letter
     if (currentChar.isNotEmpty) {
       setState(() {
         sentence += currentChar;
@@ -162,7 +150,7 @@ class _CameraPageState extends State<CameraPage> {
     }
   }
 
-  void onRemove() { //to remove letter
+  void onRemove() { //to remove the letter
     if (sentence.isNotEmpty) {
       setState(() {
         sentence = sentence.substring(0, sentence.length - 1);
@@ -170,8 +158,18 @@ class _CameraPageState extends State<CameraPage> {
     }
   }
 
-  void onClear() { //remove whole sentence 
+  void onClear() { //to clear the sentence
     setState(() => sentence = "");
+  }
+
+  // دالة لتشغيل الصوت من بايتات
+  Future<void> playAudioFromBytes(Uint8List bytes) async {
+    final dir = await getTemporaryDirectory(); //temporary file in mobile
+    final file = File('${dir.path}/tts_audio.mp3');//ينشئ ملف MP3
+    await file.writeAsBytes(bytes, flush: true);//writes bytes to file
+
+    final player = AudioPlayer();
+    await player.play(DeviceFileSource(file.path));//play voice file
   }
 
   Future<void> onSpeak() async {
@@ -199,7 +197,7 @@ class _CameraPageState extends State<CameraPage> {
   bool get isConnected => channel != null;
 
   void onStop() async {
-    if (!isConnected) {//if no connection 
+    if (!isConnected) {  // if no connection
       setState(() {
         streaming = false;
         status = "غير متصل بالسيرفر";
@@ -215,7 +213,7 @@ class _CameraPageState extends State<CameraPage> {
         status = "جاري الإرسال";
       });
     } else {
-      stopPeriodicCapture();//stop the streaming
+      stopPeriodicCapture(); //stop the streaming
       setState(() {
         streaming = false;
         status = "متوقف مؤقتا";
@@ -224,13 +222,14 @@ class _CameraPageState extends State<CameraPage> {
   }
 
 
-  Future<void> switchCamera() async {//to switch the current camera
+  Future<void> switchCamera() async { //to switch the current camera
     if (cameras.isEmpty) return;
 
-    currentCameraIndex = (currentCameraIndex + 1) % cameras.length;//next camera
+    // select the next camera
+    currentCameraIndex = (currentCameraIndex + 1) % cameras.length;
     final newCamera = cameras[currentCameraIndex];
 
-    //switch camera without stop streaming
+    // switch the camera without stop the streaming
     final wasStreaming = streaming;
     streaming = false; // مؤقتًا لإيقاف الإرسال أثناء التبديل
     await controller?.dispose();
@@ -241,10 +240,10 @@ class _CameraPageState extends State<CameraPage> {
     setState(() {});//rebuild UI
   }
 
-  void _showInfoDialog(BuildContext context) {
+  void _showInfoDialog(BuildContext context) { //show information dialog of buttons functionalities
     showDialog( //popup dialog
       context: context,
-      builder: (BuildContext context) { 
+      builder: (BuildContext context) {
         return AlertDialog( //dialog with rounded corners
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           title: const Text("معلومات الأزرار", textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold,
@@ -252,13 +251,13 @@ class _CameraPageState extends State<CameraPage> {
           ),
 
           content: const Column(
-            mainAxisSize: MainAxisSize.min,//to make the dialog size match the content
-            crossAxisAlignment: CrossAxisAlignment.start,//content start from the start (Right in RTL layout)
+            mainAxisSize: MainAxisSize.min, //to make the dialog size match the content
+            crossAxisAlignment: CrossAxisAlignment.start, //content start from the start (Right in RTL layout)
             children: [
               Directionality(
                 textDirection: TextDirection.rtl, // align all content from left to right
                 child: Column(
-                  mainAxisSize: MainAxisSize.min, //column height suits the content
+                  mainAxisSize: MainAxisSize.min,//column height suits the content
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 8),
@@ -325,7 +324,7 @@ class _CameraPageState extends State<CameraPage> {
             ],
           ),
           actionsAlignment: MainAxisAlignment.center,
-          actions: [ //close button 
+          actions: [ //close button
             TextButton(onPressed: () => Navigator.pop(context), child: const Text("إغلاق",style: TextStyle(
               fontFamily: 'El_Messiri',
               fontSize: 18,
@@ -345,13 +344,13 @@ class _CameraPageState extends State<CameraPage> {
     super.dispose();
   }
 
-  Widget cameraButton(IconData icon, VoidCallback onTap, Color iconColor) {//reusable styling camera button
-    return GestureDetector( //clickable button 
+  Widget cameraButton(IconData icon, VoidCallback onTap, Color iconColor) { //reusable styling camera button
+    return GestureDetector( //clickable button
       onTap: onTap,
       child: Container( height: 50, width: 49,
         decoration: BoxDecoration(
-          color: Colors.black45,           
-          borderRadius: BorderRadius.circular(14), 
+          color: Colors.black45,            // خلفية نصف شفافة
+          borderRadius: BorderRadius.circular(14),
         ),
         child: Icon( icon,
           color: iconColor,
@@ -361,12 +360,12 @@ class _CameraPageState extends State<CameraPage> {
     );
   }
 
-  Color getStatusColor() {//return state indicator color
+  Color getStatusColor() { //return state indicator color
     if (status == "متصل" && !streaming) {
-      return Colors.green; // connected without streaming
+      return Colors.green; // connect without streaming
     }
     if (streaming) {
-      return Colors.green; //streaming
+      return Colors.green; // active streaming
     }
     if (status == "متوقف مؤقتا") {
       return Colors.amberAccent; // paused
@@ -379,13 +378,13 @@ class _CameraPageState extends State<CameraPage> {
 
 
   @override
-  Widget build(BuildContext context) {//build main UI of camera screen
+  Widget build(BuildContext context) { //build main UI of camera screen
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Stack(
           children: [
-            //full screen camera preview with aspect ratio preserved
+           //full screen camera preview with aspect ratio preserved
             Positioned.fill(
               child: controller == null || !controller!.value.isInitialized
                   ? const Center(
@@ -401,7 +400,7 @@ class _CameraPageState extends State<CameraPage> {
               ),
             ),
 
-            Positioned(//at the top of the screen
+            Positioned( //at the top of the screen
               top: 20,
               left: 12,
               right: 12,
@@ -409,7 +408,7 @@ class _CameraPageState extends State<CameraPage> {
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.circle, size: 15, color: getStatusColor()),//connection status
+                      Icon(Icons.circle, size: 15, color: getStatusColor()), //connection status
                       SizedBox(width: 5),
                       Expanded(child: Text(" $status", style: TextStyle(color: Colors.white))),
                     ],
@@ -460,7 +459,7 @@ class _CameraPageState extends State<CameraPage> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      padding: EdgeInsets.zero, 
+                      padding: EdgeInsets.zero, // مهم حتى ما يكبر الزر زيادة
                     ),
                     child: Icon(
                       streaming ? Icons.pause : Icons.play_arrow,
@@ -481,7 +480,7 @@ class _CameraPageState extends State<CameraPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,// evenly spaces the buttons across the row
                 children: [
-                  cameraButton(Icons.delete_outline, onClear, Colors.redAccent),//clear
+                  cameraButton(Icons.delete_outline, onClear, Colors.redAccent), //clear
                   const SizedBox(width: 35),
                   cameraButton(Icons.remove, onRemove, Colors.orange),//remove
                   const SizedBox(width: 35),
@@ -489,7 +488,7 @@ class _CameraPageState extends State<CameraPage> {
                   const SizedBox(width: 35),
                   cameraButton(Icons.volume_up, onSpeak, Colors.blueAccent),//speak
                   const SizedBox(width: 35),
-                  cameraButton(Icons.cameraswitch, switchCamera, Colors.white70),//switch camera
+                  cameraButton(Icons.cameraswitch, switchCamera, Colors.white70),//switch
                 ],
               ),
             ),
