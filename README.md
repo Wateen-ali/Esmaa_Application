@@ -66,6 +66,52 @@ This system aims to make communication more accessible, inclusive, and instant f
   <img src="results/camera.PNG" alt="App Screenshot" width="200"/>
 </p>
 
+
+---
+
+## Back-End Structure
+
+### 1. Preprocessing Script (Dataset Preparation)
+
+A Python script (e.g., `preprocess_dataset.py`) that:
+
+- Reads raw dataset images (e.g., ASLAD-190K) from `SRC_ROOT`.
+- Uses **MediaPipe Hands** to:
+  - Detect the hand.
+  - Compute a square bounding box with configurable padding.
+- Crops the hand area, pads to a square, resizes to `224×224`, and saves to `DST_ROOT`.
+- Logs failures (no hand, invalid crop, etc.) into a JSON file for inspection.
+
+### 2. Training Script (Model Training)
+
+A Python script (e.g., `train_efficientnet.py`) that:
+
+- Loads processed train/val/test splits via `torchvision.datasets.ImageFolder`.
+- Applies:
+  - Data augmentation (flips, rotations, affine transforms, color jitter).
+  - Normalization with ImageNet mean and standard deviation.
+- Fine-tunes **EfficientNet-B0**:
+  - Replaces the final classifier layer with `Num_class = 33`.
+  - Uses **Adam** optimizer, **CrossEntropyLoss**, and **ReduceLROnPlateau** scheduler.
+  - Early stopping when validation accuracy stops improving.
+- Evaluates on the test set:
+  - **Accuracy**
+  - **Precision**
+  - **Recall**
+  - **F1 Score**
+  - **Average inference delay per image**
+- Plots and displays a confusion matrix.
+- Saves the best model weights (e.g., `Final_best_efficientnet_ASLAD.pth`).
+
+### 3. Server Script (`server.py`)
+
+- Loads the trained EfficientNet-B0 model and runs it in **evaluation mode**.
+- Uses **MediaPipe Hands** at runtime to detect and crop the hand from each incoming frame.
+- Preprocessing pipeline for each frame:
+  - Crop → pad to square → resize to `224×224` → normalization.
+- Predicts the class index and maps it to the corresponding Arabic letter via `arabic_map`.
+
+
 ## Demo Video
 [Watch the Demo Video](https://drive.google.com/file/d/10Ya4PQ8kg312SVhIkqgdBpU0FUgdg09P/view?usp=sharing)
 
