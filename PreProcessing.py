@@ -64,7 +64,7 @@ def detect_square_bbox(img_bgr, hands):
 
     #convert image to RGB required for MediaPipe 
     rgb = cv2.cvtColor(small, cv2.COLOR_BGR2RGB)
-    res = hands.process(rgb) #send image to mediapipe 
+    res = hands.process(rgb) #send image to mediapipe hand
     if not res or not res.multi_hand_landmarks:
         return None
 
@@ -94,7 +94,7 @@ def detect_square_bbox(img_bgr, hands):
     return x1, y1, x2, y2 #return bounding box coordinates 
 
 
-#process one image intirely: detect, crop, pad, resize, and save
+#process one image entirely: detect, crop, pad, resize, and save
 def process_one_image(src_path, dst_path, hands, fail_log):
     try:
         img = read_image(src_path)
@@ -130,9 +130,9 @@ def main():
     os.makedirs(DST_ROOT, exist_ok=True) #create output folders 
     os.makedirs(os.path.dirname(FAIL_LOG_PATH), exist_ok=True) 
 
-    classes = [d for d in os.listdir(SRC_ROOT) if os.path.isdir(os.path.join(SRC_ROOT, d))] #take all classes from sorce
+    classes = [d for d in os.listdir(SRC_ROOT) if os.path.isdir(os.path.join(SRC_ROOT, d))] #take all classes from source
 
-    #intialize MediaPipe hand
+    #intialize MediaPipe hand model
     hands = mp.solutions.hands.Hands(
         static_image_mode=True,
         max_num_hands=MAX_NUM_HANDS,
@@ -172,4 +172,5 @@ def main():
 
 if __name__ == "__main__": #start main 
     main()
+
 
