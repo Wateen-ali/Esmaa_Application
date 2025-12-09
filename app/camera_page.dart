@@ -83,7 +83,7 @@ class _CameraPageState extends State<CameraPage> {
       }, onDone: () { //if server closed
 
         debugPrint("Server closed connection");
-        channel = null;                   // مهم جداً
+        channel = null;                   
         stopPeriodicCapture();            // يوقف البث
         setState(() {
           streaming = false;
@@ -91,7 +91,7 @@ class _CameraPageState extends State<CameraPage> {
         });
       },onError: (err) {
         debugPrint("WebSocket error: $err");
-        channel = null;                   // مهم جداً
+        channel = null;                   
         stopPeriodicCapture();
         setState(() {
           streaming = false;
