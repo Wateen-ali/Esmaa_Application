@@ -112,6 +112,36 @@ A Python script (e.g., `train_efficientnet.py`) that:
 - Predicts the class index and maps it to the corresponding Arabic letter via `arabic_map`.
 
 
+## ✅ Requirements
+
+Before running this project, make sure you have the following installed on your system:
+
+### 🔧 Backend Requirements
+- :contentReference[oaicite:0]{index=0} 3.8 or higher  
+- :contentReference[oaicite:1]{index=1}  
+- :contentReference[oaicite:2]{index=2}  
+- :contentReference[oaicite:3]{index=3}  
+- :contentReference[oaicite:4]{index=4}  
+- :contentReference[oaicite:5]{index=5}  
+- :contentReference[oaicite:6]{index=6}  
+- :contentReference[oaicite:7]{index=7}  
+- :contentReference[oaicite:8]{index=8}  
+
+---
+
+### 📱 Frontend Requirements
+- :contentReference[oaicite:9]{index=9} (latest stable version)
+- :contentReference[oaicite:10]{index=10}
+- :contentReference[oaicite:11]{index=11} or any supported IDE
+- Android Emulator or a physical Android device
+
+---
+
+### 🗂 General Tools
+- :contentReference[oaicite:12]{index=12}  
+- A stable internet connection (for package installation)
+
+
 ## Demo Video
 [Watch the Demo Video](https://drive.google.com/file/d/10Ya4PQ8kg312SVhIkqgdBpU0FUgdg09P/view?usp=sharing)
 
