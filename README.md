@@ -136,6 +136,7 @@ Before running this project, make sure you have the following installed on your 
 - Dart
 - Android Studio or any Flutter-supported IDE
 - Android Emulator or a physical Android device
+- IOS Emulator or a physical IOS device
 
 
 
