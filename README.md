@@ -67,7 +67,7 @@ This system aims to make communication more accessible, inclusive, and instant f
 </p>
 
 
----
+
 
 ## Back-End Structure
 
@@ -112,7 +112,7 @@ A Python script (e.g., `train_efficientnet.py`) that:
 - Predicts the class index and maps it to the corresponding Arabic letter via `arabic_map`.
 
 
-## ✅ Requirements
+##  Requirements
 
 Before running this project, make sure you have the following installed on your system:
 
@@ -129,7 +129,7 @@ Before running this project, make sure you have the following installed on your 
 
 
 
----
+
 
 ### 📱 Frontend Requirements
 - Flutter (latest stable version)
@@ -137,7 +137,7 @@ Before running this project, make sure you have the following installed on your 
 - Android Studio or any Flutter-supported IDE
 - Android Emulator or a physical Android device
 
----
+
 
 
 ## Setup Instructions
@@ -148,6 +148,7 @@ The following command installs FastAPI, the model dependencies, MediaPipe for ha
 
 ```bash
 pip install fastapi uvicorn torch torchvision opencv-python mediapipe edge-tts numpy tqdm matplotlib seaborn scikit-learn
+```
 
 
 ### Configuring the Server IP in Flutter
@@ -158,14 +159,14 @@ To enable this connection, update the following lines in **CameraPage.dart**:
 ```dart
 String serverIp = "192.168.xxx.xxx"; // backend machine IP (your laptop/PC)
 int serverPort = 8000;               // backend server port
-
+```
 ### Running the Backend Server
 
 To start the FastAPI backend and allow the Flutter application to connect, run the following command in the backend folder:
 
 ```bash
 uvicorn server:app --host 0.0.0.0 --port 8000
-
+```
 
 ## Demo Video
 [Watch the Demo Video](https://drive.google.com/file/d/10Ya4PQ8kg312SVhIkqgdBpU0FUgdg09P/view?usp=sharing)
